@@ -3,11 +3,17 @@ import deleteIcon from './components/deleteIcon.js';
 
 const btn = document.querySelector('[data-form-btn]');
 
+const addTask = evento => {
+  const list = document.querySelector('[data-list]');
+  const task = createTask(evento);
+  list.appendChild(task);
+};
+
 const createTask = (evento) => {
   evento.preventDefault();
   const input = document.querySelector('[data-form-input]');
   const value = input.value;
-  const list = document.querySelector('[data-list]');
+  
   const task = document.createElement('li');
   task.classList.add('card');
   input.value = '';
@@ -16,22 +22,24 @@ const createTask = (evento) => {
 
   // ---- date ----
   const calendar = document.querySelector("[data-form-date]");
-  console.log(calendar);
   const fecha = calendar.value;
   const dateFormat = moment(fecha).format('DD/MM/YYYY')
-  console.log(dateFormat);
 
+  // ---- task ----
   const titleTask = document.createElement('span');
   titleTask.classList.add('task');
   titleTask.innerText = value;
   taskContent.appendChild(checkComplete());
   taskContent.appendChild(titleTask);
-  // task.innerHTML = content;
 
+  // task.innerHTML = content;
+  const dateElement = document.createElement("span");
+  dateElement.innerHTML = dateFormat;+
   task.appendChild(taskContent);
+  task.appendChild(dateElement);
   task.appendChild(deleteIcon());
-  list.appendChild(task);
+  return task;
 };
 
 //Arrow functions o funciones anonimas
-btn.addEventListener('click', createTask);
+btn.addEventListener('click', addTask);
